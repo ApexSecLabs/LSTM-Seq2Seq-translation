@@ -1,10 +1,12 @@
+### 优化方向
 基于最基础的单层双向LSTM架构进行优化，主要的优化方向有以下：
+
 1. 原有的训练数据3万2千条英译汉语料，扩充至3万6千条，增加了一些更口语化的句子，提高模型表达能力。
 2. 原有的单层双向LSTM，调整为多层双向LSTM架构，本文使用了3层双向。层数增加意味着权重增加，模型记录的特征越丰富。
 3. 推理代码中预测部分，由原有的贪心解码调整为束搜索。贪心解码会在每一个token预测时都选择最优的概率。束搜索在每一步保留多个候选序列，从而在全局范围内寻找更优的翻译结果。
 4. 增加了Dropout层、weight_decay正则化，提高泛化能力。相同学习率下单层双向LSTM仅在第六轮之后就出现了过拟合，提高训练数据量、增加LSTM层数和Dropout、weight_decay后，训练15轮之后才出现过拟合。训练的轮次越多，模型中的权重和词向量矩阵更新的越充分。
 
-
-模型运行：python train.py
-模型推理：python inference.py
-逐句翻译 .e.g： python inference.py --direction zh2en --sentence 我爸爸在他的房间里
+### 使用方法
+- 模型运行：`python train.py`
+- 模型推理：`python inference.py`
+- 逐句翻译（示例）：`python inference.py --direction zh2en --sentence 我爸爸在他的房间里`
